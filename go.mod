@@ -31,7 +31,8 @@ require (
 	github.com/ipfs/go-ipfs-blockstore v1.1.2
 	github.com/ipfs/go-ipfs-chunker v0.0.5
 	github.com/ipfs/go-ipfs-cmds v0.6.0
-	github.com/ipfs/go-ipfs-config v0.19.0
+	// FIXME(BLOCKING): Update to release tag once https://github.com/ipfs/go-ipfs-config/pull/162 lands.
+	github.com/ipfs/go-ipfs-config v0.19.1-0.20220221223623-ea7b3a0b7fba
 	github.com/ipfs/go-ipfs-exchange-interface v0.1.0
 	github.com/ipfs/go-ipfs-exchange-offline v0.1.1
 	github.com/ipfs/go-ipfs-files v0.0.9
