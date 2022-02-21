@@ -106,9 +106,8 @@ The CLI will exit with one of the following values:
 `,
 	},
 	Options: []cmds.Option{
-		// FIXME: Revisit shortcuts after final names are decided.
-		cmds.StringOption(RepoDirOption, "r", "Path to the repository directory to use."),
-		cmds.StringOption(ConfigFileOption, "f", "Path to the configuration file to use."),
+		cmds.StringOption(RepoDirOption, "Path to the repository directory to use."),
+		cmds.StringOption(ConfigFileOption, "Path to the configuration file to use."),
 		cmds.StringOption(ConfigOption, "c", "[DEPRECATED] Path to the configuration file to use."),
 		cmds.BoolOption(DebugOption, "D", "Operate in debug mode."),
 		cmds.BoolOption(cmds.OptLongHelp, "Show the full command help text."),
