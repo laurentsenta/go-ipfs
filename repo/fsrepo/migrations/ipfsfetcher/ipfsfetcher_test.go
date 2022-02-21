@@ -26,7 +26,7 @@ func TestIpfsFetcher(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	fetcher := NewIpfsFetcher("", 0, nil)
+	fetcher := NewIpfsFetcher("", 0, nil, "")
 	defer fetcher.Close()
 
 	out, err := fetcher.Fetch(ctx, "go-ipfs/versions")
@@ -62,7 +62,7 @@ func TestInitIpfsFetcher(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	f := NewIpfsFetcher("", 0, nil)
+	f := NewIpfsFetcher("", 0, nil, "")
 	defer f.Close()
 
 	// Init ipfs repo
