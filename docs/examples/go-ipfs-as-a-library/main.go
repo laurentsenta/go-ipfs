@@ -10,9 +10,10 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"time"
 
-	config "github.com/ipfs/go-ipfs-config"
 	files "github.com/ipfs/go-ipfs-files"
+	config "github.com/ipfs/go-ipfs/config"
 	icore "github.com/ipfs/interface-go-ipfs-core"
 	icorepath "github.com/ipfs/interface-go-ipfs-core/path"
 	ma "github.com/multiformats/go-multiaddr"
@@ -102,10 +103,16 @@ func createNode(ctx context.Context, repoPath string) (icore.CoreAPI, error) {
 		Repo: repo,
 	}
 
+	if *flagAllowListPath != "" {
+		nodeOptions.PeerBlockRequestFilter = loadPeerBlockRequestFilter(*flagAllowListPath)
+	}
+
 	node, err := core.NewNode(ctx, nodeOptions)
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Printf("IPFS node peerID: `%v'\n", node.Identity) // TODO: figure out how to get this with the new core api
 
 	// Attach the Core API to the constructed node
 	return coreapi.NewCoreAPI(node)
@@ -216,6 +223,8 @@ func getUnixfsNode(path string) (files.Node, error) {
 /// -------
 
 var flagExp = flag.Bool("experimental", false, "enable experimental features")
+var flagFolderPath = flag.String("folder", "", "path to a folder that will be added to the IPFS network")
+var flagAllowListPath = flag.String("allow-list", "", "path to a json file that contains allow / deny configuration")
 
 func main() {
 	flag.Parse()
@@ -251,7 +260,12 @@ func main() {
 
 	inputBasePath := "../example-folder/"
 	inputPathFile := inputBasePath + "ipfs.paper.draft3.pdf"
+
 	inputPathDirectory := inputBasePath + "test-dir"
+
+	if flagFolderPath != nil {
+		inputPathDirectory = *flagFolderPath
+	}
 
 	someFile, err := getUnixfsNode(inputPathFile)
 	if err != nil {
@@ -275,7 +289,7 @@ func main() {
 		panic(fmt.Errorf("Could not add Directory: %s", err))
 	}
 
-	fmt.Printf("Added directory to IPFS with CID %s\n", cidDirectory.String())
+	fmt.Printf("Added directory `%s' to IPFS with CID %s\n", inputPathDirectory, cidDirectory.String())
 
 	/// --- Part III: Getting the file and directory you added back
 
@@ -363,4 +377,7 @@ func main() {
 	fmt.Printf("Wrote the file to %s\n", outputPath)
 
 	fmt.Println("\nAll done! You just finalized your first tutorial on how to use go-ipfs as a library")
+
+	fmt.Println("\nSleeping for 60 minutes")
+	time.Sleep(60 * time.Minute)
 }
