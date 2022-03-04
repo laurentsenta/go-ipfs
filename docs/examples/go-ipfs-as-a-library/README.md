@@ -108,6 +108,12 @@ As a bonus, you can also find lines that show you how to spawn a node over your 
 - [Comment these lines](./main.go#L219-L223)
 - [Uncomment these lines](./main.go#L209-L216)
 
+### Bonus: Use a peer block filter
+
+```
+go build ./ && ./go-ipfs-as-a-library -allow-list ./allow-list.json -folder ./my-test-folder
+```
+
 ## Voilà! You are now a go-ipfs hacker
 
 You've learned how to spawn a go-ipfs node using the go-ipfs core API. There are many more [methods to experiment next](https://godoc.org/github.com/ipfs/interface-go-ipfs-core). Happy hacking!
