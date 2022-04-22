@@ -1,14 +1,19 @@
 name = "bitswap"
 
 [builders]
-  "docker:go" = { enabled = true, enable_go_build_cache = true }
+
+[builders."docker:go"]
+enabled                = true
+build_base_image       = "golang:1.17-buster"
+enable_go_build_cache  = false # Prevent any eventual bug with version changes
+go_proxy_mode          = "direct"
 
 [runners]
   "local:docker" = { enabled = true }
   "cluster:k8s" = { enabled = true }
 
 [global.build_config]
-  enable_go_build_cache = true
+  enable_go_build_cache = false
 
 [[testcases]]
   name = "speed-test"

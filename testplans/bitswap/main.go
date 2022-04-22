@@ -73,7 +73,7 @@ func runSpeedTest(runenv *runtime.RunEnv, initCtx *run.InitContext) error {
 	if err != nil {
 		return err
 	}
-	h, err := libp2p.New(ctx, libp2p.ListenAddrs(listen))
+	h, err := libp2p.New(libp2p.ListenAddrs(listen))
 	if err != nil {
 		return err
 	}
@@ -116,11 +116,11 @@ func runProvide(ctx context.Context, runenv *runtime.RunEnv, h host.Host, bstore
 		buf := make([]byte, size)
 		rand.Read(buf)
 		blk := block.NewBlock(buf)
-		err := bstore.Put(blk)
+		err := bstore.Put(ctx, blk)
 		if err != nil {
 			return err
 		}
-		err = ex.HasBlock(blk)
+		err = ex.HasBlock(ctx, blk)
 		if err != nil {
 			return err
 		}
@@ -183,7 +183,7 @@ func runRequest(ctx context.Context, runenv *runtime.RunEnv, h host.Host, bstore
 		}
 		runenv.RecordMessage(bstats.Marshal(s))
 
-		stored, err := bstore.Has(blk.Cid())
+		stored, err := bstore.Has(ctx, blk.Cid())
 		if err != nil {
 			return fmt.Errorf("error checking if blck was stored %s: %w", mh.String(), err)
 		}
